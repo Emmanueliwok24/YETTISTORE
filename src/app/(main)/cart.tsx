@@ -2,6 +2,8 @@
 import { useCartContext } from "@/contexts/cart";
 import React, { useState, useEffect } from "react";
 import CheckoutModal from "./checkout";
+import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   close: () => void;
@@ -51,7 +53,6 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
       );
       subtotal += parseInt(item.price) * quantity; // Explicitly cast item.price to number
     });
-    console.log("Subtotal:", subtotal);
     return subtotal;
   };
 
@@ -116,7 +117,9 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                         {cart.map((item) => (
                           <li className="flex py-6 " key={item.id}>
                             <div className="h-24 w-24 flex-shrink-0 overflow-hidden  rounded-md border border-gray-200">
-                              <img
+                              <Image
+                                width={96}
+                                height={96}
                                 src={item.image}
                                 alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
                                 className="h-full w-full object-cover object-center"
@@ -171,10 +174,8 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                   </div>
                 </div>
                 <div className="z-10">
-        {isModalOpen && <CheckoutModal close={closeCheckOutModal} />}
-      </div>
-
-
+                  {isModalOpen && <CheckoutModal close={closeCheckOutModal} />}
+                </div>
                 <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
@@ -184,13 +185,11 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                     Shipping and taxes calculated at checkout.
                   </p>
                   <div className="mt-6">
-                    <a
-                      href="#"
-                      onClick={opeCheckOutModal}
+                    <Link href="/information"
                       className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                     >
                       Checkout
-                    </a>
+                    </Link>
                   </div>
                   <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>

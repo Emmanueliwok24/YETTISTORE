@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Carousel = ({ images }: { images: string[] }) => {
@@ -36,11 +37,10 @@ const Carousel = ({ images }: { images: string[] }) => {
         {images.map((imageUrl, index) => (
           <div
             key={index}
-            className={`${
-              index === currentSlide ? "block" : "hidden"
-            } duration-700 ease-linear transition-all`}
+            className={`${index === currentSlide ? "block" : "hidden"
+              } duration-700 ease-linear transition-all`}
           >
-            <img
+            <Image
               src={imageUrl}
               className="absolute block w-full -translate-x-1/2 lg:h-auto h-full  object-cover object-top  -translate-y-1/2 top-1/2 left-1/2"
               alt={`Slide ${index}`}

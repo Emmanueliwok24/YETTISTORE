@@ -1,6 +1,7 @@
 import CollectionProduct from "@/components/collectionProduct";
 import Header from "@/components/header";
-import { token } from "@/utils/token";
+import axios, { AxiosResponse } from "axios";
+import { cookies } from "next/headers";
 
 export type collectionData = {
   id: number;
@@ -18,7 +19,9 @@ async function fetchCollections({
 }: {
   params: { collection: number };
 }) {
-  const res = await fetch(
+  const token = cookies().get("token") ? cookies().get("token")?.value : "";
+
+  const { data: collection }: AxiosResponse = await axios.get(
     `${process.env.NEXT_PUBLIC_ENDPOINT}/product/collections/${params.collection}`,
     {
       method: "GET",
@@ -27,16 +30,14 @@ async function fetchCollections({
       }
     }
   );
-  const data = res.ok ? ((await res.json()) as ProductListProps) : null;
-
 
   return (
     <>
       <div className="mx-auto max-w-screen-xl">
         <Header />
 
-        <h1 className="text-lg font-semibold p-4 "> {data?.data?.name}</h1>
-        <CollectionProduct collection={data?.data} />
+        <h1 className="text-lg font-semibold p-4 "> {collection?.data?.name}</h1>
+        <CollectionProduct collection={collection?.data} />
       </div>
     </>
   );

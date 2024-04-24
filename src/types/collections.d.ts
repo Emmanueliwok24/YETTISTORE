@@ -1,14 +1,14 @@
 type collectionsType = {
-    id:number;
+    id: number;
     name: String;
     image: String;
 }
 
-export type productType ={
-    id:number;
-    title:string;
+export type productType = {
+    id: number;
+    title: string;
     description: String;
-    price:string;
-    media:string;
+    price: string;
+    media: string;
     collection: number;
 }

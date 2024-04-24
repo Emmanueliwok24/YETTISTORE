@@ -1,7 +1,7 @@
 "use client";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import ShoppingModal from "@/app/cart";
+import ShoppingModal from "@/app/(main)/cart";
 import { useState } from "react";
 import { useCartContext } from "@/contexts/cart";
 import Link from "next/link";
@@ -21,9 +21,9 @@ const Header = () => {
   return (
     <>
       <nav className="flex items-center justify-between p-3 px-5 z-10 sticky w-full top-0 border-b bg-white  ">
-        <Link href="/">
-        <Image src="/logo.svg" alt="logo" width={72} height={72} />
-        </Link>
+        <span>
+          <Image src="/logo.svg" className="h-auto w-[72]" priority alt="logo" width={72} height={72} />
+        </span>
 
         <span className="relative cursor-pointer" onClick={openModal}>
           <ShoppingCart size={30} className="text-gray-700" />

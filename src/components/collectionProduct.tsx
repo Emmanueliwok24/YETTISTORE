@@ -1,41 +1,36 @@
 import {
   ProductListProps,
   collectionData,
-} from "@/app/collection/[collection]/page";
-import Image from "next/image";
-import Link from "next/link";
+} from "@/app/(main)/collection/[collection]/page";
 import ProductCard from "./Productcart";
-import { token } from "@/utils/token";
 import { productType } from "@/types/collections";
+import axios from "axios";
+import { cookies } from "next/headers";
 
 async function CollectionProduct({
   collection,
 }: {
   collection: collectionData | undefined;
 }) {
-  const products = await fetch(
+  const token = cookies().get("token") ? cookies().get("token")?.value : "";
+  const { data: products } = await axios.get(
     `${process.env.NEXT_PUBLIC_ENDPOINT}/product/list`,
     {
-      method: "GET",
       headers: {
         "content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      cache: 'no-cache'
     }
   );
 
-  const productJson = products.ok ? await products.json() : [];
-  const selectedProducts: productType[] = productJson.data;
-
-  const sortedProducts = selectedProducts.filter(
-    (product) => product.collection === collection?.id
+  const sortedProducts = products.data.filter(
+    (product: productType) => product.collection === collection?.id
   );
   return (
     <div className="mx-auto max-w-screen-xl">
       <div className="flex flex-wrap md:justify-start justify-center gap-3 p-2">
-        {sortedProducts.map((product:productType) => (
-          <ProductCard {...product} key={product.id}  />
+        {sortedProducts.map((product: productType) => (
+          <ProductCard {...product} key={product.id} />
         ))}
       </div>
     </div>

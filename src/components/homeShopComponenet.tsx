@@ -2,10 +2,13 @@ import { token } from "@/utils/token";
 import ProductCard from "./Productcart";
 import { collectionsType, productType } from "@/types/collections";
 import Link from "next/link";
-import {  MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
+import { cookies } from "next/headers";
+import axios from "axios";
 
 const HomeShop = async ({ name, id }: collectionsType) => {
-  const products = await fetch(
+  const token = cookies().get("token") ? cookies().get("token")?.value : "";
+  const { data: products } = await axios.get(
     `${process.env.NEXT_PUBLIC_ENDPOINT}/product/list`,
     {
       method: "GET",
@@ -13,13 +16,10 @@ const HomeShop = async ({ name, id }: collectionsType) => {
         "content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      cache: 'no-cache'
     }
   );
-  const productJson = products.ok ? await products.json() : [];
-  const selectedProducts: productType[] = productJson.data;
-  const sortedProducts = selectedProducts.filter(
-    (product) => product.collection === id
+  const sortedProducts = products.data.filter(
+    (product: productType) => product.collection === id
   );
   const displayedProducts = sortedProducts.slice(0, 4); // Display only first three products
   return (

@@ -49,7 +49,7 @@ function ProductCard({
             </small>
             <button
               onClick={AddthistoCart}
-              className="text-center truncate text-white  px-6 py-2 bg-[#02A9F7] ms-auto rounded hover:bg-teal-800  duration-300"
+              className="text-center truncate text-white  px-6 py-2 bg-[#0291f7] ms-auto rounded hover:bg-teal-800  duration-300"
             >
               Add to cart
             </button>
