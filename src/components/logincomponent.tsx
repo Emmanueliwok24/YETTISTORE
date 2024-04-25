@@ -82,7 +82,7 @@ const LoginComponent = () => {
                 <div className="mb-1 max-w-96">
                     <button
                         onClick={handleSubmit}
-                        className="bg-slate-950 py-3 text-lg px-3 text-white p-2 rounded-md w-full">
+                        className="bg-gradient-to-br from-[#35a4ff] to-indigo-500 py-3 text-lg px-3 text-white p-2 rounded-md w-full">
                         Login
                     </button>
                 </div>

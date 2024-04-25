@@ -8,10 +8,10 @@ interface FooterCompProps {
 const Footer = ({ className }: FooterCompProps) => {
 
     return (
-        <footer className={`mt-auto border-t border-cyan-950`}>
+        <footer className={`mt-auto border-t  `}>
             <div className="max-w-screen-xl mx-auto">
                 <div className="md:grid md:grid-cols-2 lg:grid-cols-4 h-full">
-                    <div className="border-r border-l border-gray-800 space-y-10 p-5 mb-5 md:mb-0">
+                    <div className="border-r space-y-10 p-5 mb-5 md:mb-0">
                         <p className="mb-5 text-gray-800 leading-loose mt-8">
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. In velit nostrum temporibus hic, est natus obcaecati sint animi unde enim nemo fuga cumque error excepturi reprehenderit corporis fugiat, a earum.
                         </p>
@@ -24,12 +24,12 @@ const Footer = ({ className }: FooterCompProps) => {
                                         className="border outline-none border-cyan-950 px-3 py-3 w-full block placeholder:text-gray-700 rounded-sm" />
                                 </div>
                                 <div className="mb-4">
-                                    <input type="submit" className="border outline-none bg-cyan-950 border-cyan-950 px-3 py-3 w-full block text-white rounded-sm" />
+                                    <input type="submit" className="border outline-none bg-gradient-to-br from-[#35a4ff] to-indigo-500  px-3 py-3 w-full block text-white rounded-sm" />
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div className="border-r space-y-5 border-gray-800 p-5 mb-5 md:mb-0">
+                    <div className="border-r space-y-5 p-5 mb-5 md:mb-0">
                         <h2 className="text-2xl mb-4 text-gray-400 font-semibold">
                             Contact Us
                         </h2>
@@ -85,7 +85,7 @@ const Footer = ({ className }: FooterCompProps) => {
                             </div>
                         </div>
                     </div>
-                    <div className="border-r space-y-5 border-gray-800 p-5 mb-5 md:mb-0">
+                    <div className="border-r space-y-5 p-5 mb-5 md:mb-0">
                         <h2 className="text-2xl mb-4 text-gray-400 font-semibold">
                             Shop
                         </h2>
@@ -134,7 +134,7 @@ const Footer = ({ className }: FooterCompProps) => {
                             </li>
                         </ul>
                     </div>
-                    <div className="border-r space-y-5 border-gray-800 p-5 mb-5 md:mb-0">
+                    <div className=" space-y-5 p-5 mb-5 md:mb-0">
                         <h2 className="text-2xl mb-4 text-gray-400 font-semibold">
                             About Us
                         </h2>

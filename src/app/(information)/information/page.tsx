@@ -5,7 +5,7 @@ import Link from "next/link";
 const Information = () => {
     return (
         <div>
-            <div className="bg-gray-500 rounded-md bg-opacity-30 text-white py-8 px-8 mt-5 font-semibold text-sm">
+            <div className="bg-gray-500  rounded-md bg-opacity-30 text-white py-8 px-8 mt-5 font-semibold text-sm">
                 Already have an account? <Link href="/login" className="text-indigo-500">Login</Link>
             </div>
             <DropDown

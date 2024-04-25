@@ -29,7 +29,9 @@ async function Store({ params }: {
   params: {
     id: string;
   }
+
 }) {
+  console.log(params.id)
   const token = cookies().get("token") ? cookies().get("token")?.value : "";
   const { data: collections }: AxiosResponse = await axios.get(
     `${process.env.NEXT_PUBLIC_ENDPOINT}/product/collections/list/${params.id}`,
@@ -44,7 +46,7 @@ async function Store({ params }: {
 
   return (
     <>
-      <div className="mx-auto max-w-screen-xl px-4">
+      <div className="mx-auto max-w-screen-xl md:px-4">
         <Header />
 
         <div className="mt-4">
@@ -52,7 +54,7 @@ async function Store({ params }: {
         </div>
 
         <div className="mt-10">
-          <h1 className="md:text-3xl text-lg font-bold mb-5">Collections</h1>
+          <h1 className=" px-2 text-3xl  font-bold mb-5 ">Collections</h1>
         </div>
         <div>
           {/* <StoreCard stores={stores.data} /> */}

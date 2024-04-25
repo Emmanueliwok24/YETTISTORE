@@ -4,12 +4,12 @@ import Link from "next/link";
 const BreadCrumbs = () => {
 
     return (
-        <div className="flex gap-1 font-semibold text-sm items-center text-white">
-            <Link href="/information">Information</Link>
+        <div className="flex gap-1  text-sm items-center text-white">
+            <p>Information</p>
             <LucideChevronRight />
-            <Link href="/shipping">Shipping</Link>
+            <p>Shipping</p>
             <LucideChevronRight />
-            <Link href="/payments">Payments</Link>
+            <p>Payments</p>
         </div>
     )
 }

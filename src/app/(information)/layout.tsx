@@ -20,7 +20,7 @@ const InformationLayout = ({ children }: Readonly<{
                         <CheckOutDataProvider>
                             <main className="max-w-screen-xl mx-auto w-full">
                                 <div className="grid md:grid-cols-2 grid-cols-1 min-h-[60vh]">
-                                    <div className="bg-cyan-950 w-full p-5 px-10">
+                                    <div className="bg-[#0a3457]  w-full p-5 md:px-10">
                                         <BreadCrumbs />
                                         {children}
                                     </div>
