@@ -1,20 +1,19 @@
 "use client";
-import { useCartContext } from "@/contexts/cart";
+import { CartItem, useCartContext } from "@/contexts/cart";
 import React, { useState, useEffect } from "react";
 import CheckoutModal from "./checkout";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useSubtotal } from "@/contexts/subtotal";
 interface Props {
   close: () => void;
 }
 
 const ShoppingModal: React.FC<Props> = ({ close }) => {
+  const { setSubtotalValue, subtotal } = useSubtotal()
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { cart, removeFromCart } = useCartContext();
-  const [quantities, setQuantities] = useState<{ [itemId: string]: number }>(
-    {}
-  );
+  const { cart, removeFromCart, updateQuantity } = useCartContext();
+
   const opeCheckOutModal = () => {
     setIsModalOpen(true);
   };
@@ -22,39 +21,26 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
     setIsModalOpen(false);
   };
 
-  // Initialize quantities when cart changes
   useEffect(() => {
-    const initialQuantities: { [itemId: string]: number } = {};
-    cart.forEach((item) => {
-      initialQuantities[item.id] = 1; // Initialize quantity to 1 for each item
-    });
-    setQuantities(initialQuantities);
-  }, [cart]);
+    const calculateSubtotal = () => {
+      return cart.reduce((acc, item) => {
+        return acc + item.price * (item.quantity || 1);
+      }, 0);
+    };
+    setSubtotalValue(calculateSubtotal());
+  }, [cart, setSubtotalValue])
 
   const handleQuantityChange = (
-    itemId: number,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = parseInt(event.target.value);
+    const itemId = Number(event.target.getAttribute("data-id"))
     if (!isNaN(value) && value >= 1) {
-      setQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        [itemId]: value,
-      }));
+      updateQuantity(itemId, value)
     }
   };
 
-  const calculateSubtotal = () => {
-    let subtotal: number = 0; // Explicitly specify the type of subtotal
-    cart.forEach((item) => {
-      const quantity: number = quantities[item.id] || 1; // Ensure quantity is of numeric type
-      console.log(
-        `Item ID: ${item.id}, Quantity: ${quantity}, Price: ${item.price}`
-      );
-      subtotal += parseInt(item.price) * quantity; // Explicitly cast item.price to number
-    });
-    return subtotal;
-  };
+
 
   return (
     <div
@@ -151,10 +137,9 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                                     id={`quantity${item.id}`}
                                     type="number"
                                     min="1"
-                                    value={quantities[item.id] || 1}
-                                    onChange={(event) =>
-                                      handleQuantityChange(item.id, event)
-                                    }
+                                    data-id={item.id}
+                                    defaultValue={item.quantity}
+                                    onChange={handleQuantityChange}
                                     className="w-16 py-1 text-center border border-gray-300 rounded"
                                   />
                                 </div>
@@ -179,7 +164,7 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                 <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>  ${calculateSubtotal()}</p>
+                    <p>  ${subtotal}</p>
                   </div>
                   <p className="mt-0.5 text-sm text-gray-500">
                     Shipping and taxes calculated at checkout.

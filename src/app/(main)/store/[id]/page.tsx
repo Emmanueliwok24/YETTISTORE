@@ -47,7 +47,6 @@ async function Store({ params }: {
   };
 
   // Log request headers
-  console.log("Request Headers:", config.headers);
 
   try {
     // Make request to fetch collections
@@ -88,7 +87,7 @@ async function Store({ params }: {
     console.error("Error fetching collections:", error);
 
     // Handle error gracefully, display a message or redirect to an error page
-    return <div className="mx-auto max-w-screen-xl min-h-[50vh] text-center"><Image src='/cart.gif' width='300' height='300' className="W-100  mx-auto " alt="image"/> <Link  href="/login">Please, click here to <b>Login</b>  or  <b>Register</b> before viewing Store </Link > </div> ;
+    return <div className="mx-auto max-w-screen-xl min-h-[50vh] text-center"><Image src='/cart.gif' width='300' height='300' className="W-100  mx-auto " alt="image" /> <Link href="/login">Please, click here to <b>Login</b>  or  <b>Register</b> before viewing Store </Link > </div>;
   }
 }
 
