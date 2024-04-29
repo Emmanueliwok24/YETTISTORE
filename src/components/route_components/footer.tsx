@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Pin, Twitter } from "lucide-react";
+import {  Instagram, Linkedin,  Twitter } from "lucide-react";
 import Link from "next/link";
 
 interface FooterCompProps {
@@ -13,8 +13,8 @@ const Footer = ({ className }: FooterCompProps) => {
                 <div className="md:grid md:grid-cols-2 lg:grid-cols-4 h-full">
                     <div className="border-r space-y-10 p-5 mb-5 md:mb-0">
                         <p className="mb-5 text-gray-800 leading-loose mt-8">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. In velit nostrum temporibus hic, est natus obcaecati sint animi unde enim nemo fuga cumque error excepturi reprehenderit corporis fugiat, a earum.
-                        </p>
+                        Get your business the recognition it deserves with marketing tools that scale.
+                         </p>
                         <div>
                             <form action="">
                                 <div className="mb-4">
@@ -63,22 +63,18 @@ const Footer = ({ className }: FooterCompProps) => {
                             </h4>
                             <div className="flex gap-3">
                                 <div className="border rounded-full p-2 aspect-square">
-                                    <Link href={"https://twitter.com"}>
+                                    <Link href={"https://www.instagram.com/yettihq/?igshid=NGExMmI2YTkyZg%3D%3D"}>
                                         <Instagram />
                                     </Link>
                                 </div>
+
                                 <div className="border rounded-full p-2 aspect-square">
-                                    <Link href={"https://twitter.com"}>
-                                        <Pin />
+                                    <Link href={"https://www.linkedin.com/company/yetti-technologies/"}>
+                                        <Linkedin />
                                     </Link>
                                 </div>
                                 <div className="border rounded-full p-2 aspect-square">
-                                    <Link href={"https://twitter.com"}>
-                                        <Facebook />
-                                    </Link>
-                                </div>
-                                <div className="border rounded-full p-2 aspect-square">
-                                    <Link href={"https://twitter.com"}>
+                                    <Link href={"#"}>
                                         <Twitter />
                                     </Link>
                                 </div>
@@ -92,27 +88,27 @@ const Footer = ({ className }: FooterCompProps) => {
                         <div>
                             <ul>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         All Products
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         Fresh Flowers
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         Dried Flowers
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         Live Plants
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         Live Plants
                                     </Link>
                                 </li>
@@ -123,12 +119,12 @@ const Footer = ({ className }: FooterCompProps) => {
                         </h2>
                         <ul>
                             <li>
-                                <Link href={"/"} className="block mb-2 font-semibold">
+                                <Link href={"#"} className="block mb-2 font-semibold">
                                     Live Plants
                                 </Link>
                             </li>
                             <li>
-                                <Link href={"/"} className="block mb-2 font-semibold">
+                                <Link href={"#"} className="block mb-2 font-semibold">
                                     Live Plants
                                 </Link>
                             </li>
@@ -141,12 +137,12 @@ const Footer = ({ className }: FooterCompProps) => {
                         <div>
                             <ul>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         Our Story
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href={"/"} className="block mb-2 font-semibold">
+                                    <Link href={"#"} className="block mb-2 font-semibold">
                                         Blog
                                     </Link>
                                 </li>
@@ -157,17 +153,17 @@ const Footer = ({ className }: FooterCompProps) => {
                         </h2>
                         <ul>
                             <li>
-                                <Link href={"/"} className="block mb-2 font-semibold">
+                                <Link href={"#"} className="block mb-2 font-semibold">
                                     Shipping & Returns
                                 </Link>
                             </li>
                             <li>
-                                <Link href={"/"} className="block mb-2 font-semibold">
+                                <Link href={"#"} className="block mb-2 font-semibold">
                                     Terms & Conditions
                                 </Link>
                             </li>
                             <li>
-                                <Link href={"/"} className="block mb-2 font-semibold">
+                                <Link href={"#"} className="block mb-2 font-semibold">
                                     Privacy Policy
                                 </Link>
                             </li>

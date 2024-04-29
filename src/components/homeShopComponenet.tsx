@@ -6,10 +6,16 @@ import { MoveRight } from "lucide-react";
 import { cookies } from "next/headers";
 import axios from "axios";
 
-const HomeShop = async ({ name, id }: collectionsType) => {
+// Define props for HomeShop component including store_name
+export interface HomeShopProps extends collectionsType {
+  store_name: string;
+}
+
+const HomeShop = async ({ name, id, store_name }: HomeShopProps) => {
   const token = cookies().get("token") ? cookies().get("token")?.value : "";
   const { data: products } = await axios.get(
-    `${process.env.NEXT_PUBLIC_ENDPOINT}/product/list`,
+    // Use the new endpoint with store_name
+    `${process.env.NEXT_PUBLIC_ENDPOINT}/product/products/${store_name}/`,
     {
       method: "GET",
       headers: {
@@ -24,7 +30,7 @@ const HomeShop = async ({ name, id }: collectionsType) => {
   const displayedProducts = sortedProducts.slice(0, 4); // Display only first three products
   return (
     <>
-      <div >
+      <div>
         <h1 className="text-lg font-semibold mb-1 p-2"> {name} Collection</h1>
       </div>
 
@@ -32,7 +38,6 @@ const HomeShop = async ({ name, id }: collectionsType) => {
         {displayedProducts.map((product: productType) => (
           <ProductCard {...product} key={product.id} />
         ))}
-
       </div>
     </>
   );
