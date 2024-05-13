@@ -7,7 +7,7 @@ interface CheckOutCartProps {
     quantity: number;
     price: number;
 }
-const CheckOutCartCard = ({ image, name, quantity }: CartItem) => {
+const CheckOutCartCard = ({ image, name, quantity,price }: CartItem) => {
     return (
         <div className="flex items-center gap-2 pb-5 border-b">
             <div className="aspect-square w-32 border p-1">
@@ -18,7 +18,7 @@ const CheckOutCartCard = ({ image, name, quantity }: CartItem) => {
                 <p>Quantity ({quantity})</p>
             </div>
             <div className="ml-auto">
-                <p className="font-bold">${Number(quantity).toLocaleString()}</p>
+                <p className="font-bold">₦{Number(price).toLocaleString()}</p>
             </div>
         </div>
     )

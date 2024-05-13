@@ -1,4 +1,5 @@
 import {  Instagram, Linkedin,  Twitter } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface FooterCompProps {
@@ -12,7 +13,10 @@ const Footer = ({ className }: FooterCompProps) => {
             <div className="max-w-screen-xl mx-auto">
                 <div className="md:grid md:grid-cols-2 lg:grid-cols-4 h-full">
                     <div className="border-r space-y-10 p-5 mb-5 md:mb-0">
-                        <p className="mb-5 text-gray-800 leading-loose mt-8">
+                        <p className="mb-5 text-gray-800 leading-loose mt-2">
+                        <span>
+          <Image src="/logo.svg" className="h-auto w-[72]" priority alt="logo" width={72} height={72} />
+        </span>
                         Get your business the recognition it deserves with marketing tools that scale.
                          </p>
                         <div>

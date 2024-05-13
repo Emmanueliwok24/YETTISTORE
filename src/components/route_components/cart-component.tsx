@@ -17,15 +17,15 @@ export default function CartSideComponent() {
                     ))}
                     <div className="pt-3 flex justify-between mb-4">
                         <p>Subtotal</p>
-                        <p>${subtotal}</p>
+                        <p>₦{subtotal}</p>
                     </div>
                     <div className="flex justify-between mb-4">
                         <p>Shipping</p>
-                        <p>${2000}</p>
+                        <p>₦{2000}</p>
                     </div>
                     <div className="flex items-center border-t py-4">
                         <h3 className="font-semibold">Total</h3>
-                        <h3 className="ml-auto font-bold">${(subtotal + 2000).toLocaleString()}</h3>
+                        <h3 className="ml-auto font-bold">₦{(subtotal + 2000).toLocaleString()}</h3>
                     </div>
                 </div>
             </div>

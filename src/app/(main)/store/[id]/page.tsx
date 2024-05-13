@@ -67,17 +67,19 @@ async function Store({ params }: {
           <div className="mt-10">
             <h1 className="px-2 text-3xl font-bold mb-5">Collections</h1>
           </div>
+
           <div>
             {/* <StoreCard stores={stores.data} /> */}
           </div>
+
 
           {collections.data.map((collection: collectionsType) => (
             <div className="mt-10 px-2" key={collection.id}>
               {/* Pass store_name as a prop to HomeShop */}
               <HomeShop {...collection} key={collection.id} store_name={params.id} />
-              <div className="flex justify-end m-2">
+              {/* <div className="flex justify-end m-2">
                 <Link href={`/collection/${collection.id}`} className="items-center flex gap-2 text-black">View All Products <MoveRight strokeWidth="1" className="transform transition-transform duration-300 hover:translate-x-2" /> </Link>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
@@ -87,7 +89,13 @@ async function Store({ params }: {
     console.error("Error fetching collections:", error);
 
     // Handle error gracefully, display a message or redirect to an error page
-    return <div className="mx-auto max-w-screen-xl min-h-[50vh] text-center"><Image src='/cart.gif' width='300' height='300' className="W-100  mx-auto " alt="image" /> <Link href="/login">Please, click here to <b>Login</b>  or  <b>Register</b> before viewing Store </Link > </div>;
+    return  <div className="mx-auto max-w-screen-xl text-center">
+    <p id="normal">Please, kindly paste <b>Store Link</b> In the <b>URL bar</b> / <b>SEARCH bar correctly</b> </p>
+    <div className=" w-100">
+    <Image src='/url.png' width='1200' height='400' className="W-100 mt-5  mx-auto " alt="image"/>
+
+    </div>
+  </div>
   }
 }
 

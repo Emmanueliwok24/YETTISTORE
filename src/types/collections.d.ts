@@ -8,7 +8,7 @@ export type productType = {
     id: number;
     title: string;
     description: String;
-    price: string;
+    price: number;
     media: string;
     collection: number;
 }

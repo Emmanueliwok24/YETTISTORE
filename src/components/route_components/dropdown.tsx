@@ -34,7 +34,7 @@ const DropDown = ({ disabled, title, content, enabled, edit }: DropDownProps) =>
                     </Link>}
                 </h3>
             </div>
-            <div className={`duration-300 ease-in-out overflow-hidden px-6  ${isOpen ? "h-[350px] py-6" : "h-0"}`}>
+            <div className={`duration-300 ease-in-out overflow-hidden px-6  ${isOpen ? "h-auto py-6" : "h-0"}`}>
                 {
                     content
                 }

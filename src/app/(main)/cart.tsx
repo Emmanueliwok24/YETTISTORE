@@ -5,6 +5,7 @@ import CheckoutModal from "./checkout";
 import Image from "next/image";
 import Link from "next/link";
 import { useSubtotal } from "@/contexts/subtotal";
+import axios from "axios";
 interface Props {
   close: () => void;
 }
@@ -14,6 +15,7 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cart, removeFromCart, updateQuantity } = useCartContext();
 
+  console.log(cart);
   const opeCheckOutModal = () => {
     setIsModalOpen(true);
   };
@@ -30,9 +32,16 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
     setSubtotalValue(calculateSubtotal());
   }, [cart, setSubtotalValue])
 
-  const handleQuantityChange = (
+  const handleQuantityChange = async (
     event: React.ChangeEvent<HTMLInputElement>
+
   ) => {
+    await axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`, cart, {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization":"Bearer " + document.cookie.split('token=')[1].split(";")[0]  // get token from cookie
+    }});
+
     const value = parseInt(event.target.value);
     const itemId = Number(event.target.getAttribute("data-id"))
     if (!isNaN(value) && value >= 1) {
@@ -118,7 +127,7 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                                   <h3>
                                     <a href="#">{item.name}</a>
                                   </h3>
-                                  <p className="ml-4">${item.price}</p>
+                                  <p className="ml-4">₦{item.price}</p>
                                 </div>
                                 <p className="mt-1 text-sm text-gray-500">
                                   {item.collection}
@@ -164,7 +173,7 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                 <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>  ${subtotal}</p>
+                    <p>  ₦{subtotal}</p>
                   </div>
                   <p className="mt-0.5 text-sm text-gray-500">
                     Shipping and taxes calculated at checkout.

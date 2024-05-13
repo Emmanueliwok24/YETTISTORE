@@ -1,10 +1,9 @@
-import { token } from "@/utils/token";
+import { cookies } from "next/headers";
+import axios from "axios";
 import ProductCard from "./Productcart";
 import { collectionsType, productType } from "@/types/collections";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
-import { cookies } from "next/headers";
-import axios from "axios";
 
 // Define props for HomeShop component including store_name
 export interface HomeShopProps extends collectionsType {
@@ -27,15 +26,14 @@ const HomeShop = async ({ name, id, store_name }: HomeShopProps) => {
   const sortedProducts = products.data.filter(
     (product: productType) => product.collection === id
   );
-  const displayedProducts = sortedProducts.slice(0, 4); // Display only first three products
   return (
     <>
       <div>
-        <h1 className="text-lg font-semibold mb-1 p-2"> {name} Collection</h1>
+        <h1 className="text-lg font-semibold mb-1 p-2">{name} Collection</h1>
       </div>
 
-      <div className="flex snap-mandatory snap-x  overflow-auto gap-3">
-        {displayedProducts.map((product: productType) => (
+      <div className="lg:grid lg:grid-cols-4 sm:grid-cols-2 flex  snap-mandatory snap-x overflow-auto gap-3">
+        {sortedProducts.map((product: productType) => (
           <ProductCard {...product} key={product.id} />
         ))}
       </div>
