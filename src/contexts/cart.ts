@@ -15,6 +15,7 @@ type CartStore = {
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
+  clearCart: () => void;
 };
 
 export const useCartContext = create<CartStore>()(
@@ -49,6 +50,9 @@ export const useCartContext = create<CartStore>()(
             });
             return { cart: newCart };
           });
+        },
+        clearCart: () => {
+          set({ cart: [] });
         },
       };
     },
