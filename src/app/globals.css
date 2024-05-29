@@ -5,12 +5,7 @@
 *::-webkit-scrollbar{
     background: white;
 }
-*::-webkit-scrollbar-thumb{
-    background-color: rgba(128, 128, 128, 0.244);
-    border-radius: 100vmax;
-    
 
-}
 html{
     scroll-behavior: smooth;
 }
