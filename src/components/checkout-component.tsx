@@ -200,82 +200,68 @@ export const PaymentForm = () => {
 
     const order_number = localStorage.getItem("order_number")
     const handleFormSubmit = useCallback(async (e: FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
         const orderNumber = localStorage.getItem("order_number");
         if (!orderNumber) {
             toast.error("Order number not found");
             return;
         }
+
+        const token = document.cookie.split('token=')[1]?.split(";")[0];
+        if (!token) {
+            toast.error("Token not found");
+            return;
+        }
+
         try {
-
             toast.loading("Initiating payment");
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            };
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart-items/${order_number}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + document.cookie.split('token=')[1].split(";")[0]  // get token from cookie
-                }
-            });
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart-items/${orderNumber}`, { headers });
+            const amount = Number(response.data.subtotal);
+            const remark = `${data?.first_name} ${data?.last_name} ${orderNumber}`;
 
             const res = await axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/payment/initiate/`, {
                 email: data?.email,
-                amount: Number(response.data.subtotal),
-                remark: data?.first_name + " " + data.last_name + " " + orderNumber,
-                order_number: order_number
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + document.cookie.split('token=')[1].split(";")[0]  // get token from cookie
-                }
-            });
+                amount,
+                remark,
+                order_number: orderNumber
+            }, { headers });
 
             toast.dismiss();
 
-            if (res.status === 200 && res.data) {
-                if (res.data.data.authorization_url) {
-                    const deviceWidth = window.innerWidth;
-                    const reference = res.data.data.reference;
+            if (res.status === 200 && res.data && res.data.data.authorization_url) {
+                const { authorization_url, reference } = res.data.data;
+                const deviceWidth = window.innerWidth;
+                const paymentWindow = window.open(authorization_url, deviceWidth < 1024 ? "_self" : "_blank", deviceWidth < 1024 ? "" : "width=500,height=600")
 
-                    const newWindow = (deviceWidth: number) => {
-                        let paymentWindow = null;
-                        if (deviceWidth < 1024) {
-                            paymentWindow = window.open(res.data.data.authorization_url, "_self");
-                        } else {
-                            paymentWindow = window.open(res.data.data.authorization_url, "_blank", "width=600,height=600");
-                            if (paymentWindow) {
-                                paymentWindow.focus();
-                            }
-                        }
-                        return paymentWindow;
-                    }
+                if (paymentWindow) {
+                    const clearContextandCart = () => {
+                        localStorage.clear();
+                        clearCart();
+                        clearData();
+                        clearSubtotal();
+                        router.refresh();
+                    };
+                    clearContextandCart();
 
-                    const paymentWindow = newWindow(deviceWidth);
-
-                    if (paymentWindow) {
-                        const clearContextandCart = () => {
-                            localStorage.removeItem("order_number");
-                            localStorage.removeItem("total_amount");
-                            clearCart();
-                            clearData();
-                            clearSubtotal();
-                            router.refresh();
-                        }
-                        clearContextandCart();
-                        paymentWindow.addEventListener("load", () => {
-                            paymentWindow.addEventListener("beforeunload", () => {
-                                router.push(`/validate/${reference}`);
-                            });
+                    paymentWindow.addEventListener("load", () => {
+                        paymentWindow.addEventListener("beforeunload", () => {
+                            window.location.replace(`/validate/${reference}`);
                         });
-                    }
-                } else {
-                    toast.error("Payment initiation failed");
+                    });
                 }
+            } else {
+                toast.error("Payment initiation failed");
             }
-
         } catch (error) {
             console.log(error);
         }
-    }, [data, cart])
+    }, [data, cart]);
+
 
     return (
         <form action="" onSubmit={handleFormSubmit}>
