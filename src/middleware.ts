@@ -5,17 +5,20 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(req: NextRequest) {
 
     const token = req.cookies.get("token")?.value;
-    const loginPath = req.nextUrl.pathname.includes("login");
-
-    if (req.nextUrl.pathname.startsWith("/_next")) {
+    if (!token || token === "undefined") {
+        return NextResponse.redirect(new URL("/login", req.nextUrl.origin));
+    } else {
         return NextResponse.next();
-    } else if (!loginPath) {
-        if (!token || token === "undefined") {
-            return NextResponse.redirect(new URL("/login", req.nextUrl.origin));
-        } else {
-            return NextResponse.next();
-        }
     }
 
-    return NextResponse.next();
+}
+
+export const config = {
+    matcher: [
+        "/collections/:path*",
+        "/store/:path*",
+        "/validate/:path*",
+        "/payment/:path*",
+        "/information/:path*",
+    ]
 }

@@ -232,23 +232,36 @@ export const PaymentForm = () => {
                 if (res.data.data.authorization_url) {
                     const deviceWidth = window.innerWidth;
                     const reference = res.data.data.reference;
-
-                    if (deviceWidth < 1024) {
-                        window.location.href = res.data.data.authorization_url;
-                    } else {
-                        let newWindow = window.open(res.data.data.authorization_url, "_blank", "width=600,height=600");
-                        if (newWindow) {
-                            newWindow.focus();
-                        }
-                    }
-
                     const clearContextandCart = () => {
                         localStorage.removeItem("order_number");
                         localStorage.removeItem("total_amount");
                         clearCart();
                         clearData();
+                        router.refresh();
                     }
                     clearContextandCart();
+                    const newWindow = (deviceWidth: number) => {
+                        let paymentWindow = null;
+                        if (deviceWidth < 1024) {
+                            paymentWindow = window.open(res.data.data.authorization_url, "_self");
+                        } else {
+                            paymentWindow = window.open(res.data.data.authorization_url, "_blank", "width=600,height=600");
+                            if (paymentWindow) {
+                                paymentWindow.focus();
+                            }
+                        }
+                        return paymentWindow;
+                    }
+
+                    const paymentWindow = newWindow(deviceWidth);
+
+                    if (paymentWindow) {
+                        paymentWindow.addEventListener("load", () => {
+                            paymentWindow.addEventListener("beforeunload", () => {
+                                router.push(`/validate/${reference}`);
+                            });
+                        });
+                    }
                 } else {
                     toast.error("Payment initiation failed");
                 }
@@ -288,23 +301,5 @@ export const PaymentForm = () => {
 
 // Verification Code
 
-const pollPaymentStatus = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_ENDPOINT}/payment/verification/cancel_transaction/${""}`, {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + document.cookie.split('token=')[1].split(";")[0]  // get token from cookie
-        }
-    });
-
-    if (response.status === 200 && response.data) {
-        if (response.data.data.status === "success") {
-            toast.success("Payment successful");
-        } else {
-            toast.error("Payment initiation failed");
-        }
-    }
-}
-
-pollPaymentStatus();
 
 
