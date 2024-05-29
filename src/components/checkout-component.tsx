@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartContext } from "@/contexts/cart";
+import { useSubtotal } from "@/contexts/subtotal";
 
 export const InfomationForm = () => {
     const { data, updateData } = useCheckOutContext();
@@ -195,6 +196,8 @@ export const PaymentForm = () => {
     const router = useRouter()
     const { data, clearData } = useCheckOutContext()
     const { cart, clearCart } = useCartContext()
+    const { clearSubtotal } = useSubtotal()
+
     const order_number = localStorage.getItem("order_number")
     const handleFormSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault()
@@ -232,14 +235,7 @@ export const PaymentForm = () => {
                 if (res.data.data.authorization_url) {
                     const deviceWidth = window.innerWidth;
                     const reference = res.data.data.reference;
-                    const clearContextandCart = () => {
-                        localStorage.removeItem("order_number");
-                        localStorage.removeItem("total_amount");
-                        clearCart();
-                        clearData();
-                        router.refresh();
-                    }
-                    clearContextandCart();
+
                     const newWindow = (deviceWidth: number) => {
                         let paymentWindow = null;
                         if (deviceWidth < 1024) {
@@ -256,6 +252,15 @@ export const PaymentForm = () => {
                     const paymentWindow = newWindow(deviceWidth);
 
                     if (paymentWindow) {
+                        const clearContextandCart = () => {
+                            localStorage.removeItem("order_number");
+                            localStorage.removeItem("total_amount");
+                            clearCart();
+                            clearData();
+                            clearSubtotal();
+                            router.refresh();
+                        }
+                        clearContextandCart();
                         paymentWindow.addEventListener("load", () => {
                             paymentWindow.addEventListener("beforeunload", () => {
                                 router.push(`/validate/${reference}`);
