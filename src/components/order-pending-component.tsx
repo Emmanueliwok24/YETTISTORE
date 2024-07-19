@@ -3,7 +3,7 @@ import React from "react";
 
 type OrderProps = {
     id: number;
-    status: "shipping" | "delivered" | "cancelled";
+    status: "shipping" |  "delivered" | "cancelled";
     date: string;
 }
 
@@ -35,13 +35,13 @@ const orders: OrderProps[] = [
     }
 ]
 
-export default function OrderComponent() {
+export default function OrderPendingComponent() {
     return (
         <React.Fragment>
               <div>
-                <h1 className="wfull bg-[#35a4ff] text-white text-center p-2 font-bold mb-2">September</h1>
+                <h1 className="w-full bg-[#35a4ff] text-white text-center p-2 font-bold mb-2">September</h1>
             </div>
-            {orders.filter(order => order.status).map((order) => (
+            {orders.filter(order => order.status === "shipping").map((order) => (
                 <Link href={`/order/details/${order.id}`} key={order.id} className=" flex items-start justify-between border rounded p-2 mb-3">
                     <div className="flex gap-3 md:items-start items-center ">
 

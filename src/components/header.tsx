@@ -1,5 +1,5 @@
 "use client";
-import { LucideHome, LucideListOrdered, LucidePackage2, LucideWarehouse, ShoppingCart } from "lucide-react";
+import { LucideCar, LucideHome, LucideListOrdered, LucidePackage2, LucideTruck, LucideWarehouse, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import ShoppingModal from "@/app/(main)/cart";
 import { useState } from "react";
@@ -24,9 +24,10 @@ const Header = () => {
         <span>
           <Image src="/logo.svg" className="h-auto w-[72]" priority alt="logo" width={72} height={72} />
         </span>
-        <div className="flex">
-          <Link href="/order">
-            <LucidePackage2 size={30} className="text-gray-700 cursor-pointer" />
+        <div className="flex items-center gap-2">
+          <Link href="/order" className="flex bg-[#35a4ff] text-white items-center p-2 gap-1 rounded">
+          Orders
+            <LucideTruck size={20} className="text-white   cursor-pointer" />
           </Link>
         <span className="relative cursor-pointer" onClick={openModal}>
           <ShoppingCart size={30} className="text-gray-700" />
