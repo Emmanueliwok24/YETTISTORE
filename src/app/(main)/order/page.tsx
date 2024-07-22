@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import OrderCancelComponent from "@/components/order-cancel-component";
 import OrderComponent from "@/components/order-component";
 import OrderPendingComponent from "@/components/order-pending-component";
-import OrderSuccessfulComponent from "@/components/Order-successful-component";
+import OrderSuccessfulComponent from "@/components/order-successful-component";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 
 

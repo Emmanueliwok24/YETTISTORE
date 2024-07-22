@@ -33,7 +33,7 @@ function ProductCard({
   };
   return (
     <div className=" snap-mandatory w-full h-full ">
-      <div className="border-[0.1px]  rounded-xl snap-center  ">
+      <div className=" shadow rounded-xl snap-center w-[300px]  flex flex-col justify-between ">
         <Link
           href="#"
           className="overflow-hidden text-center rounded-xl  rounded-b-none  block "
