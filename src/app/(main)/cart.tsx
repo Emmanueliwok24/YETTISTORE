@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSubtotal } from "@/contexts/subtotal";
 import axios from "axios";
+import { toast } from "sonner";
 interface Props {
   close: () => void;
 }
@@ -15,7 +16,11 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cart, removeFromCart, updateQuantity } = useCartContext();
 
+
   console.log(cart);
+
+
+  
   const opeCheckOutModal = () => {
     setIsModalOpen(true);
   };
@@ -154,7 +159,7 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                                 </div>
                                 <button
                                   type="button"
-                                  onClick={() => removeFromCart(item.id)}
+                                  onClick={() => removeFromCart(item.id) }
                                   className="font-medium text-indigo-600 hover:text-indigo-500"
                                 >
                                   Remove

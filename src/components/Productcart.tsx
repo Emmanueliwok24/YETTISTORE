@@ -4,6 +4,7 @@ import { productType } from "@/types/collections";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
 function ProductCard({
   title,
@@ -15,11 +16,15 @@ function ProductCard({
 }: productType) {
   const { addToCart,cart } = useCartContext();
   const AddthistoCart = () => {
+    toast.success("Added to Cart")
     axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`, cart, {
       headers:{
         "Content-Type": "application/json",
         "Authorization":"Bearer " + document.cookie.split('token=')[1].split(";")[0]  // get token from cookie
     }
+    }).then(()=>{
+
+      toast.dismiss()
     })
 
     return addToCart({
@@ -57,6 +62,7 @@ function ProductCard({
             </small>
             <button
               onClick={AddthistoCart}
+
               className="text-center truncate text-white   px-6 py-2 bg-[#0291f7] ms-auto rounded hover:bg-teal-800  duration-300"
             >
               Add to cart

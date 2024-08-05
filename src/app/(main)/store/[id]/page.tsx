@@ -1,3 +1,4 @@
+
 import Header from "@/components/header";
 import Hero from "@/components/hero";
 import HomeShop, { HomeShopProps } from "@/components/homeShopComponenet";
@@ -7,6 +8,7 @@ import { MoveRight } from "lucide-react";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export type StoreDetails = {
   id: number;
@@ -26,10 +28,14 @@ export type DataType = {
 };
 
 async function Store({ params }: {
+
   params: {
     id: string;
   }
 }) {
+
+
+  // <ClearToast />
   console.log(params.id);
 
   // Log the endpoint value
@@ -54,6 +60,8 @@ async function Store({ params }: {
       `${process.env.NEXT_PUBLIC_ENDPOINT}/product/collections/list/${params.id}`,
       config
     );
+
+
 
     return (
       <>

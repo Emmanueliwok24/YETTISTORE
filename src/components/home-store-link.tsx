@@ -1,6 +1,8 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
+import { toast } from "sonner"
+// import { setTimeout } from "timers/promises"
 
 const HomeStoreLink = () => {
     const router = useRouter()
@@ -8,9 +10,19 @@ const HomeStoreLink = () => {
     const handleFormSubmit = (e: FormEvent) => {
         e.preventDefault()
         if (storeLink) {
+            const toastId  = toast.loading("searching for store...")
+
             router.push(`/store/${storeLink}`)
+
+
+            setTimeout(()=>{
+                toast.dismiss(toastId)
+
+            },7000)
         }
     }
+
+
 
     return (
         <form className="w-100 mt-5 mx-auto flex"

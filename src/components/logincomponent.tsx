@@ -2,7 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import swal from "sweetalert";
 
@@ -12,6 +12,11 @@ type LoginDataProps = {
 }
 
 const LoginComponent = () => {
+
+    useEffect(()=>{
+
+        toast.dismiss()
+    },[]);
 
     const router = useRouter()
     const [data, setData] = useState({} as LoginDataProps)
