@@ -10,7 +10,7 @@ const HomeStoreLink = () => {
     const handleFormSubmit = (e: FormEvent) => {
         e.preventDefault()
         if (storeLink) {
-            const toastId  = toast.loading("searching for store...")
+            const toastId  = toast.loading(`Your store search is in progress.<br> Please wait a moment...   `)
 
             router.push(`/store/${storeLink}`)
 
@@ -18,7 +18,7 @@ const HomeStoreLink = () => {
             setTimeout(()=>{
                 toast.dismiss(toastId)
 
-            },7000)
+            },5000)
         }
     }
 

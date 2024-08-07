@@ -1,6 +1,7 @@
 import { DataType } from "@/app/(main)/store/[id]/page";
 
 const StoreCard = ({
+    
     stores
 }: { stores: DataType[] }) => {
     return (

@@ -1,8 +1,9 @@
 "use client"
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { toast } from "sonner";
 import swal from "sweetalert";
 
@@ -28,7 +29,7 @@ const LoginComponent = () => {
         })
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         toast.loading("Logging in")
         axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/auth/login`, {
@@ -56,47 +57,57 @@ const LoginComponent = () => {
 
 
     return (
-        <div className="mt-16 px-5 p-3 ">
-            <h1 className="text-base md:text-3xl font-bold mb-16">
-                Login Page
+        <div className="mt-16 px-5 p-3 md:grid  grid-cols-2 ">
+                <div>
+
+
+            <h1 className="text-base md:text-xl font-bold mb-5">
+                Login to search for Store.
             </h1>
-            <div className="flex flex-col gap-3">
-                <div className="mb-1 max-w-96">
+            <form className="flex flex-col gap-3 "  onSubmit={handleSubmit}>
+                <div className="mb-1 max-w-[35rem]">
                     <input
                         type="email"
                         name="email"
                         onChange={handleChange}
                         placeholder="Enter your email"
                         className="border border-blue-200 outline-none py-3 px-3 text-lg rounded w-full"
+                        required
                     />
                 </div>
-                <div className="mb-1 max-w-96">
+                <div className="mb-1 max-w-[35rem]">
                     <input
                         type="password"
                         name="password"
                         onChange={handleChange}
                         placeholder="Enter your password"
                         className="border border-blue-200 outline-none py-3 px-3 text-lg rounded w-full"
+                        required
                     />
                 </div>
-                <div className="mb-1 max-w-96">
-                    <Link href="/register" className="text-xs">
+                <div className="mb-1 max-w-[35rem]">
+                    <Link href="https://myyetti.store/reset-password" target="_blank" className="text-xs">
                         <span className="font-bold text-slate-950">Forgot Password</span>
                     </Link>
                 </div>
-                <div className="mb-1 max-w-96">
+                <div className="mb-1 max-w-[35rem]">
                     <button
                         onClick={handleSubmit}
                         className="bg-gradient-to-br from-[#35a4ff] to-indigo-500 py-3 text-lg px-3 text-white p-2 rounded-md w-full">
                         Login
                     </button>
                 </div>
-                <div className="mb-1 text-right max-w-96">
-                    <Link href="/register" className="text-xs">
+                <div className="mb-1 text-left max-w-[35rem]">
+                    <Link href="https://myyetti.store/signUp" target="_blank" className="text-xs">
                         Don&apos;t have an account? &nbsp;
                         <span className="font-bold text-slate-950">Register</span>
                     </Link>
                 </div>
+            </form>
+            </div>
+            <div className="border">
+
+            <Image src='/hero_img.svg' width={700} height={500} className="w-full" alt="login image"/>
             </div>
         </div>
     );
