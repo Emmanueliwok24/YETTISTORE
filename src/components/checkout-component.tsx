@@ -260,7 +260,7 @@ export const PaymentForm = () => {
         } catch (error) {
             console.log(error);
         }
-    }, [data, cart]);
+    }, [data,clearCart,clearData,clearSubtotal,router]);
 
 
     return (

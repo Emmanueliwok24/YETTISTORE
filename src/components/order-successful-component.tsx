@@ -64,8 +64,8 @@ export default function OrderSuccessfulComponent() {
             <div>
                 <h1 className="w-full bg-[#35a4ff] text-white text-center p-2 font-bold mb-2"> Success Order</h1>
             </div>
-            {orders.filter(order => order.status === "confirmed").map((order) => (
-                <div  className="flex items-start justify-between border rounded p-2 mb-3">
+            {orders.filter(order => order.status === "confirmed").map((order, index) => (
+                <div key={index} className="flex items-start justify-between border rounded p-2 mb-3">
                     <div className="flex gap-3 md:items-start items-center">
                         <div>
                             <h3 className="font-bold">Order <span className="font-light">#{order.order_number}</span></h3>
