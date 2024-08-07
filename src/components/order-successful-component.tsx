@@ -32,8 +32,7 @@ export default function OrderSuccessfulComponent() {
                     config
                 );
 
-                // Sort orders by created_at date in descending order
-                fetchedOrders.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                
 
                 // Update state with sorted orders
                 setOrders(fetchedOrders);
