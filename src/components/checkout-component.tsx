@@ -274,6 +274,7 @@ export const PaymentForm = () => {
                 <input type="email"
                     placeholder="Your Email Address"
                     className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm" />
+                    <small className="text-gray-400">*<b>NOTE!..</b> Email here must be that of the <b>BUYER</b>.*</small>
             </div>
             <div className="mb-4">
                 <input type="tel"
