@@ -20,7 +20,7 @@ export default function CartSideComponent() {
                         <p>₦{subtotal}</p>
                     </div>
                     <div className="flex justify-between mb-4">
-                        <p className=""><strong>**Note:</strong> Payment of Shipping delivery will specified based on the delivery person\'s availability(location).  </p>
+                        <p className=""><strong>**Note:</strong> Payment of Shipping delivery will specified based on the delivery person&rsquo;s availability(location).  </p>
                     </div>
                     <div className="flex items-center border-t py-4">
                         <h3 className="font-semibold">Total</h3>
