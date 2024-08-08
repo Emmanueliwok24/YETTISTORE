@@ -7,12 +7,15 @@ import { Toaster } from "sonner";
 import CartSideComponent from "@/components/route_components/cart-component";
 import BreadCrumbs from "@/components/route_components/breadcrumbs";
 import { CheckOutDataProvider } from "@/contexts/checkout-content";
-
+import Head from "next/head";
 const InformationLayout = ({ children }: Readonly<{
     children: React.ReactNode;
 }>) => {
     return (
         <html lang="en">
+    <Head>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+      </Head>
             <QueryProviderContext>
                 <body className={`${GeistSans.className} flex flex-col min-h-screen`}>
                     <Toaster richColors position="top-center" />

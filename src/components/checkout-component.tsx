@@ -3,12 +3,11 @@ import { useEffect, ChangeEvent, FormEvent, useCallback } from "react";
 import { toast } from "sonner";
 import { useCheckOutContext } from "@/contexts/checkout-content";
 import axios, { AxiosResponse } from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartContext } from "@/contexts/cart";
 import { useSubtotal } from "@/contexts/subtotal";
 
-export const InfomationForm = () => {
+export const InformationForm = () => {
     const { data, updateData } = useCheckOutContext();
     const { cart } = useCartContext()
     const router = useRouter();
@@ -93,6 +92,8 @@ export const InfomationForm = () => {
                     onChange={updateContextData}
                     placeholder="Email Address"
                     className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm" />
+                <small className="text-gray-400">*<b>NOTE!..</b> Email here must be that of the <b>BUYER</b>.*</small>
+
             </div>
             <div className="mb-4">
                 <input type="number"
@@ -126,7 +127,7 @@ export const InfomationForm = () => {
                     className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm"
                     style={{ color: "white" }} // Set options color to black
                 >
-                    <option value="" disabled>Select State</option>
+                    <option value="" disabled selected>Select State</option>
                     <option value="Abia" style={{ color: "black" }}>Abia</option>
                     <option value="Adamawa" style={{ color: "black" }}>Adamawa</option>
                     <option value="Akwa Ibom" style={{ color: "black" }}>Akwa Ibom</option>
@@ -193,12 +194,13 @@ export const InfomationForm = () => {
 
 
 export const PaymentForm = () => {
-    const router = useRouter()
-    const { data, clearData } = useCheckOutContext()
-    const { cart, clearCart } = useCartContext()
-    const { clearSubtotal } = useSubtotal()
+    const router = useRouter();
+    const { data, clearData } = useCheckOutContext();
+    const { cart, clearCart } = useCartContext();
+    const { clearSubtotal } = useSubtotal();
 
-    const order_number = localStorage.getItem("order_number")
+    const order_number = localStorage.getItem("order_number");
+
     const handleFormSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         const orderNumber = localStorage.getItem("order_number");
@@ -236,7 +238,7 @@ export const PaymentForm = () => {
             if (res.status === 200 && res.data && res.data.data.authorization_url) {
                 const { authorization_url, reference } = res.data.data;
                 const deviceWidth = window.innerWidth;
-                const paymentWindow = window.open(authorization_url, deviceWidth < 1024 ? "_self" : "_blank", deviceWidth < 1024 ? "" : "width=500,height=600")
+                const paymentWindow = window.open(authorization_url, deviceWidth < 1024 ? "_self" : "_blank", deviceWidth < 1024 ? "" : "width=500,height=600");
 
                 if (paymentWindow) {
                     const clearContextandCart = () => {
@@ -260,36 +262,41 @@ export const PaymentForm = () => {
         } catch (error) {
             console.log(error);
         }
-    }, [data,clearCart,clearData,clearSubtotal,router]);
-
+    }, [data, clearCart, clearData, clearSubtotal, router]);
 
     return (
         <form action="" onSubmit={handleFormSubmit}>
             <div className="mb-4">
-                <input type="text"
-                    placeholder="Your Name"
-                    className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm" />
+                <input
+                    type="text"
+                    value={`${data.first_name} ${data.last_name}`}
+                    readOnly
+                    className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm"
+                />
             </div>
             <div className="mb-4">
-                <input type="email"
-                    placeholder="Your Email Address"
-                    className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm" />
-                    <small className="text-gray-400">*<b>NOTE!..</b> Email here must be that of the <b>BUYER</b>.*</small>
+                <input
+                    type="email"
+                    value={data.email}
+                    readOnly
+                    className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm"
+                />
             </div>
             <div className="mb-4">
-                <input type="tel"
+                <input
+                    type="tel"
                     placeholder="Your Phone Number"
-                    className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm" />
+                    className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm"
+                />
             </div>
             <div className="mb-4">
-                <button className="outline-none bg-white text-center border-none px-3 py-3 w-full block text-slate-950 font-semibold cursor-pointer rounded-sm" >
+                <button className="outline-none bg-white text-center border-none px-3 py-3 w-full block text-slate-950 font-semibold cursor-pointer rounded-sm">
                     Continue to pay
                 </button>
             </div>
         </form>
-    )
-}
-
+    );
+};
 
 // Verification Code
 

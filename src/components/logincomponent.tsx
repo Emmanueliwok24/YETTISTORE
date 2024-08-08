@@ -107,7 +107,7 @@ const LoginComponent = () => {
             </div>
             <div className="border">
 
-            <Image src='/hero_img.svg' width={700} height={500} className="w-full" alt="login image"/>
+            <Image src='/hero_img.svg' width={700} height={500} className="w-full mt-2 md:mt-0" alt="login image"/>
             </div>
         </div>
     );

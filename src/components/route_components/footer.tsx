@@ -1,6 +1,7 @@
 import {  Instagram, Linkedin,  Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import LogoutComponent from "../logout";
 
 interface FooterCompProps {
     className?: string;
@@ -94,6 +95,9 @@ const Footer = ({ className }: FooterCompProps) => {
                                 </Link>
                             </li>
                         </ul>
+
+
+                        <LogoutComponent />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { InfomationForm, PaymentForm } from "@/components/checkout-component";
+import { InformationForm, PaymentForm } from "@/components/checkout-component";
 import DropDown from "@/components/route_components/dropdown";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ const Information = () => {
                 enabled
                 edit="/information"
                 title="1. Contact Information"
-                content={<InfomationForm />}
+                content={<InformationForm />}
             />
 
             <DropDown
