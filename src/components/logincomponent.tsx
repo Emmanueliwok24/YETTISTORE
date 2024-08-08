@@ -38,10 +38,10 @@ const LoginComponent = () => {
             if (res) {
                 document.cookie = `token=${res.data.data.access}`
             }
-            if (toast.success("Login successful")) {
-                router.push("/");
-                toast.dismiss()
-            }
+            toast.success("Login successful")
+            window.location.href = "/"
+            toast.dismiss()
+
         }).catch(err => {
             if (err.response.status === 404) {
                 swal({
