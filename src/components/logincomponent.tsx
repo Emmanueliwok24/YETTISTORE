@@ -38,9 +38,9 @@ const LoginComponent = () => {
             if (res) {
                 document.cookie = `token=${res.data.data.access}`
             }
-            toast.dismiss()
             if (toast.success("Login successful")) {
                 router.push("/");
+                toast.dismiss()
             }
         }).catch(err => {
             if (err.response.status === 404) {
