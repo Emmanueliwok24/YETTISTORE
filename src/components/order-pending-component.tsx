@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // Import Lucide icons
 
 type OrderProps = {
     order_number: number;
@@ -11,11 +12,29 @@ type OrderProps = {
 
 export default function OrderPendingComponent() {
     const [orders, setOrders] = useState<OrderProps[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [ordersPerPage] = useState<number>(10); // Number of orders per page
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchOrders = async () => {
+            // Check if cached orders exist in localStorage
+            const cachedOrders = localStorage.getItem('orders');
+            const cachedOrdersTimestamp = localStorage.getItem('ordersTimestamp');
+
+            // If cached orders are found and they are not stale, use them
+            if (cachedOrders && cachedOrdersTimestamp) {
+                const cacheAge = Date.now() - parseInt(cachedOrdersTimestamp);
+                const maxCacheAge = 5 * 60 * 1000; // Cache valid for 5 minutes
+
+                if (cacheAge < maxCacheAge) {
+                    setOrders(JSON.parse(cachedOrders));
+                    setLoading(false); // Directly set loading to false if cached data is used
+                    return;
+                }
+            }
+
             const token = Cookies.get("token") || "";
 
             const config = {
@@ -32,10 +51,12 @@ export default function OrderPendingComponent() {
                     config
                 );
 
-              
-
                 // Update state with sorted orders
                 setOrders(fetchedOrders);
+
+                // Cache fetched orders and timestamp in localStorage
+                localStorage.setItem('orders', JSON.stringify(fetchedOrders));
+                localStorage.setItem('ordersTimestamp', Date.now().toString());
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     setError(error.response?.data?.message || error.message);
@@ -50,6 +71,25 @@ export default function OrderPendingComponent() {
         fetchOrders();
     }, []);
 
+    // Pagination calculations
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = orders.filter(order => order.status === "pending").slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+    const handlePrevious = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < Math.ceil(orders.filter(order => order.status === "pending").length / ordersPerPage)) {
+            setCurrentPage(prevPage => prevPage + 1);
+        }
+    };
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -63,7 +103,7 @@ export default function OrderPendingComponent() {
             <div>
                 <h1 className="w-full bg-[#35a4ff] text-white text-center p-2 font-bold mb-2">Pending Order</h1>
             </div>
-            {orders.filter(order => order.status === "pending").map((order, index) => (
+            {currentOrders.map((order, index) => (
                 <div key={index} className="flex items-start justify-between border rounded p-2 mb-3">
                     <div className="flex gap-3 md:items-start items-center">
                         <div>
@@ -80,6 +120,29 @@ export default function OrderPendingComponent() {
                     </div>
                 </div>
             ))}
+
+            {/* Render pagination only if there are more orders than per page */}
+            {orders.filter(order => order.status === "pending").length > ordersPerPage && (
+                <nav className="flex justify-center items-center mt-4">
+                    <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1 rounded bg-gray-200 text-black disabled:opacity-50"
+                    >
+                        <ChevronLeft />
+                    </button>
+                    <span className="mx-3">
+                        Page {currentPage} of {Math.ceil(orders.filter(order => order.status === "pending").length / ordersPerPage)}
+                    </span>
+                    <button
+                        onClick={handleNext}
+                        disabled={currentPage === Math.ceil(orders.filter(order => order.status === "pending").length / ordersPerPage)}
+                        className="px-3 py-1 rounded bg-gray-200 text-black disabled:opacity-50"
+                    >
+                        <ChevronRight />
+                    </button>
+                </nav>
+            )}
         </React.Fragment>
     );
 }

@@ -58,7 +58,11 @@ export const InformationForm = () => {
             }
 
         } catch (error: any) {
-            toast.error(error);
+            if (error.response && error.response.status === 401) {
+                toast.error("This email is registered as a seller");
+            } else {
+                toast.error(error.message || "An error occurred");
+            }
             console.log(error);
         }
     };
@@ -201,7 +205,7 @@ export const PaymentForm = () => {
 
     const order_number = localStorage.getItem("order_number");
 
-    const handleFormSubmit = useCallback(async (e: FormEvent) => {
+    const handleFormSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         const orderNumber = localStorage.getItem("order_number");
         if (!orderNumber) {
@@ -259,8 +263,17 @@ export const PaymentForm = () => {
             } else {
                 toast.error("Payment initiation failed");
             }
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || "An error occurred";
+
+            if (errorMessage) {
+                toast.error("The email must belong to a buyer. Payment initiation stopped.");
+                toast.dismiss()
+
+                return; // Stops further execution
+            }
+
+            toast.error(errorMessage);
         }
     }, [data, clearCart, clearData, clearSubtotal, router]);
 
@@ -285,8 +298,10 @@ export const PaymentForm = () => {
             <div className="mb-4">
                 <input
                     type="tel"
+                    value={data.phone}
                     placeholder="Your Phone Number"
                     className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm"
+                    readOnly
                 />
             </div>
             <div className="mb-4">
@@ -297,7 +312,6 @@ export const PaymentForm = () => {
         </form>
     );
 };
-
 // Verification Code
 
 

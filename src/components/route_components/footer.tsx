@@ -83,6 +83,11 @@ const Footer = ({ className }: FooterCompProps) => {
 
 
                         <ul>
+                            <li>
+                                <Link href={"/order"} className="block mb-2 font-semibold">
+                                    Order
+                                </Link>
+                            </li>
 
                             <li>
                                 <Link href={"https://www.myyetti.co/terms.html"} className="block mb-2 font-semibold">
@@ -94,10 +99,13 @@ const Footer = ({ className }: FooterCompProps) => {
                                     Privacy Policy
                                 </Link>
                             </li>
+
                         </ul>
 
 
-                        <LogoutComponent />
+                         <LogoutComponent />
+
+
                     </div>
                 </div>
             </div>

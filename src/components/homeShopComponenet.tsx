@@ -32,7 +32,7 @@ const HomeShop = async ({ name, id, store_name }: HomeShopProps) => {
         <h1 className="text-lg font-semibold mb-1 p-2">{name} Collection</h1>
       </div>
 
-      <div className="lg:grid lg:grid-cols-4 sm:grid-cols-2 flex  snap-mandatory snap-x overflow-auto gap-3">
+      <div className="  flex   snap-mandatory snap-x overflow-auto gap-3 clean-sidebar">
         {sortedProducts.map((product: productType) => (
           <ProductCard {...product} key={product.id} />
         ))}

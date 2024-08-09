@@ -11,4 +11,6 @@ export type productType = {
     price: number;
     media: string;
     collection: number;
+    cost_price: number;
+
 }
