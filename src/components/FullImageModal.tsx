@@ -1,7 +1,7 @@
 // FullImageModal.tsx
 import React from "react";
 import Image from "next/image";
-import { IoMdClose } from "react-icons/io";
+import {  LucideX } from "lucide-react";
 
 interface FullImageModalProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ const FullImageModal: React.FC<FullImageModalProps> = ({ isOpen, imageSrc, onClo
           onClick={onClose}
           className="absolute top-2 right-2 text-white bg-gray-800 rounded-full p-1 hover:bg-gray-600"
         >
-          <IoMdClose size={24} />
+          <LucideX size={24} />
         </button>
         <Image
           src={imageSrc}
