@@ -1,4 +1,3 @@
-
   import Header from "@/components/header";
   import Hero from "@/components/hero";
   import HomeShop, { HomeShopProps } from "@/components/homeShopComponenet";
@@ -63,31 +62,26 @@
 
 
 
+
       return (
         <>
-          <div className="mx-auto max-w-screen-xl md:px-4">
+          <div className="mx-auto max-w-screen-xl md:px-4 ">
             <Header />
 
-            <div className="mt-4">
+            <div className="mt-2">
               <Hero name={params.id} />
             </div>
 
-            <div className="mt-10">
-              <h1 className="px-2 text-3xl font-bold mb-5">Collections</h1>
-            </div>
 
-            <div>
-              {/* <StoreCard stores={stores.data} /> */}
-            </div>
+
+
 
 
             {collections.data.map((collection: collectionsType) => (
-              <div className="mt-10 px-2" key={collection.id}>
+              <div className="mt-2 px-2 border-b border-gray-200 border-dashed " key={collection.id}>
                 {/* Pass store_name as a prop to HomeShop */}
                 <HomeShop {...collection} key={collection.id} store_name={params.id} />
-                {/* <div className="flex justify-end m-2">
-                  <Link href={`/collection/${collection.id}`} className="items-center flex gap-2 text-black">View All Products <MoveRight strokeWidth="1" className="transform transition-transform duration-300 hover:translate-x-2" /> </Link>
-                </div> */}
+                
               </div>
             ))}
           </div>

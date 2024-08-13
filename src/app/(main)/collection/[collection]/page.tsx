@@ -38,6 +38,10 @@ async function fetchCollections({
 
         <h1 className="text-lg font-semibold p-4 "> {collection?.data?.name}</h1>
         <CollectionProduct collection={collection?.data} />
+
+        <div className="text-center py-4 mt-4 border-t border-gray-300 border-dashed">
+          <p className="text-gray-400 text-sm">End of Products</p>
+        </div>
       </div>
     </>
   );

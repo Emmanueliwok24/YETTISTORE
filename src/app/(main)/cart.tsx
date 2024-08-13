@@ -7,20 +7,16 @@ import Link from "next/link";
 import { useSubtotal } from "@/contexts/subtotal";
 import axios from "axios";
 import { toast } from "sonner";
+
 interface Props {
   close: () => void;
 }
 
 const ShoppingModal: React.FC<Props> = ({ close }) => {
-  const { setSubtotalValue, subtotal } = useSubtotal()
+  const { setSubtotalValue, subtotal } = useSubtotal();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cart, removeFromCart, updateQuantity } = useCartContext();
 
-
-  console.log(cart);
-
-
-  
   const opeCheckOutModal = () => {
     setIsModalOpen(true);
   };
@@ -35,26 +31,39 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
       }, 0);
     };
     setSubtotalValue(calculateSubtotal());
-  }, [cart, setSubtotalValue])
+  }, [cart, setSubtotalValue]);
 
-  const handleQuantityChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-
-  ) => {
-    await axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`, cart, {
-      headers:{
-        "Content-Type": "application/json",
-        "Authorization":"Bearer " + document.cookie.split('token=')[1].split(";")[0]  // get token from cookie
-    }});
-
-    const value = parseInt(event.target.value);
-    const itemId = Number(event.target.getAttribute("data-id"))
-    if (!isNaN(value) && value >= 1) {
-      updateQuantity(itemId, value)
+  const handleQuantityChange = async (id: number, quantity: number) => {
+    if (quantity < 1) return; // Prevent setting quantity less than 1
+    updateQuantity(id, quantity);
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`,
+        cart,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + document.cookie.split("token=")[1].split(";")[0], // get token from cookie
+          },
+        }
+      );
+      toast.success("Cart updated");
+    } catch (error) {
+      toast.error("Failed to update cart");
     }
   };
 
+  const incrementQuantity = (id: number, quantity: number) => {
+    handleQuantityChange(id, quantity + 1);
+  };
 
+  const decrementQuantity = (id: number, quantity: number) => {
+    if (quantity > 1) {
+      handleQuantityChange(id, quantity - 1);
+    } else {
+      toast.error("Quantity must be at least 1");
+    }
+  };
 
   return (
     <div
@@ -116,12 +125,12 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                       >
                         {cart.map((item) => (
                           <li className="flex py-6 " key={item.id}>
-                            <div className="h-24 w-24 flex-shrink-0 overflow-hidden  rounded-md border border-gray-200">
+                            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                               <Image
                                 width={96}
                                 height={96}
                                 src={item.image}
-                                alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
+                                alt={item.name}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>
@@ -139,7 +148,7 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                                 </p>
                               </div>
                               <div className="flex mt-4 items-center justify-between text-sm">
-                                <div className="flex items-center  gap-2">
+                                <div className="flex items-center gap-2">
                                   <label
                                     htmlFor={`quantity${item.id}`}
                                     className="mr-2"
@@ -147,19 +156,32 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                                     Qty
                                   </label>
                                   {/* Quantity input field */}
-                                  <input
-                                    id={`quantity${item.id}`}
-                                    type="number"
-                                    min="1"
-                                    data-id={item.id}
-                                    defaultValue={item.quantity}
-                                    onChange={handleQuantityChange}
-                                    className="w-16 py-1 text-center border border-gray-300 rounded"
-                                  />
+                                  <div className="flex items-center border border-gray-300 rounded">
+                                    <button
+                                      onClick={() => decrementQuantity(item.id, item.quantity || 1)}
+                                      className="px-2 py-1 text-gray-600 hover:text-gray-800"
+                                    >
+                                      -
+                                    </button>
+                                    <input
+                                      id={`quantity${item.id}`}
+                                      type="number"
+                                      min="1"
+                                      value={item.quantity || 1}
+                                      readOnly
+                                      className="w-16 py-1 text-center border-none"
+                                    />
+                                    <button
+                                      onClick={() => incrementQuantity(item.id, item.quantity || 1)}
+                                      className="px-2 py-1 text-gray-600 hover:text-gray-800"
+                                    >
+                                      +
+                                    </button>
+                                  </div>
                                 </div>
                                 <button
                                   type="button"
-                                  onClick={() => removeFromCart(item.id) }
+                                  onClick={() => removeFromCart(item.id)}
                                   className="font-medium text-indigo-600 hover:text-indigo-500"
                                 >
                                   Remove
@@ -178,13 +200,14 @@ const ShoppingModal: React.FC<Props> = ({ close }) => {
                 <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>  ₦{subtotal}</p>
+                    <p>₦{subtotal}</p>
                   </div>
                   <p className="mt-0.5 text-sm text-gray-500">
                     Shipping and taxes calculated at checkout.
                   </p>
                   <div className="mt-6">
-                    <Link href="/information"
+                    <Link
+                      href="/information"
                       className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                     >
                       Checkout

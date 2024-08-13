@@ -7,7 +7,9 @@ import { toast } from "sonner";
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
 
-function ProductCard({
+interface CollectionProductCartProps extends productType {}
+
+function CollectionProductCart({
   title,
   media,
   description,
@@ -15,15 +17,24 @@ function ProductCard({
   id,
   collection,
   cost_price,
-}: productType) {
-  const { addToCart, removeFromCart, updateQuantity, cart } = useCartContext();
+}: CollectionProductCartProps) {
+  const { cart, addToCart, updateQuantity, removeFromCart } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const productInCart = cart.find((item) => item.id === id);
-  const [quantity, setQuantity] = useState(productInCart ? productInCart.quantity : 1);
+  const [quantity, setQuantity] = useState(productInCart ? productInCart.quantity : 1); // Start from 1
 
   // Save cart to localStorage
   const saveCartToLocalStorage = (cart: any[]) => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem('cart', JSON.stringify(cart));
+  };
+
+  // Load cart from localStorage
+  const loadCartFromLocalStorage = () => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      return JSON.parse(storedCart);
+    }
+    return [];
   };
 
   // Update cart in localStorage whenever it changes
@@ -49,17 +60,15 @@ function ProductCard({
       });
     }
 
-    axios
-      .post(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`, cart, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer " + document.cookie.split("token=")[1].split(";")[0], // Get token from cookie
-        },
-      })
-      .then(() => {
-        toast.dismiss();
-      });
+    axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`, cart, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer " + document.cookie.split("token=")[1].split(";")[0], // Get token from cookie
+      },
+    }).then(() => {
+      toast.dismiss();
+    });
   };
 
   const handleQuantityChange = (change: number) => {
@@ -89,32 +98,28 @@ function ProductCard({
   }, [quantity, productInCart, id, updateQuantity]);
 
   return (
-    <div className="border p-2 px-3 snap-center flex-shrink-0 w-[250px] mb-2 flex flex-col justify-between bg-white">
+    <div className="border snap-center flex-shrink-0 overflow-hidden flex flex-col justify-between bg-white">
       <div
-        className="rounded-xl overflow-hidden flex items-center justify-center cursor-pointer"
+        className="mt-2 rounded-xl overflow-hidden flex items-center justify-center cursor-pointer"
         onClick={handleImageClick}
       >
         <Image
           src={media}
           alt={title}
           className="aspect-square object-contain transition-transform duration-300 hover:scale-105"
-          width={150}
-          height={150}
+          width={150} // Adjust width to fit the card
+          height={150} // Adjust height to fit the card
         />
       </div>
-      <div>
+      <div className="px-4 py-2">
         <h1 className="font-normal text-lg">{title}</h1>
         <p className="text-xs text-gray-400 mt-2 break-words">
           {description}
         </p>
-      </div>
-
-      <div className="flex flex-col">
-        <div className="flex justify-between mt-2 items-center">
-          <small className="text-[#02A9F7] text-md font-semibold">₦{price}</small>
+        <div className="flex justify-between mt-2 items-center overflow-hidden">
+          <small className="text-[#02A9F7] text-sm font-bold">₦{price}</small>
           <small className="text-gray-500 line-through">₦{cost_price}</small>
         </div>
-
         {quantity < 1 ? (
           <button
             onClick={AddToCart}
@@ -153,24 +158,25 @@ function ProductCard({
         )}
       </div>
 
+      {/* Modal */}
       {isModalOpen && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50"
           onClick={handleCloseModal}
         >
-          <div className="relative w-auto bg-white ">
+          <div className="relative w-full max-w-3xl bg-white p-4 rounded-lg">
             <button
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-gray-500 bg-white hover:text-gray-800"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
             >
               <X size={24} />
             </button>
             <Image
               src={media}
               alt={title}
-              className="object-contain aspect-square "
-              width={400}
-              height={400}
+              className="object-cover w-full h-full"
+              width={800}
+              height={800}
             />
           </div>
         </div>
@@ -179,4 +185,4 @@ function ProductCard({
   );
 }
 
-export default ProductCard;
+export default CollectionProductCart;

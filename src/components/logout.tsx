@@ -43,9 +43,11 @@ export default function LogoutComponent() {
             router.push('/login');
             toast.success("Successfully logged out!");
         } catch (error) {
-            toast.error("Logout failed. Please try again.");
+            // Remove the token cookie regardless of the error
+            Cookies.remove("token");
+            router.push('/login');
+            toast.error("Session expired or logout failed. You have been logged out.");
             console.error("Logout failed: ", error);
-            // Handle logout error (e.g., show a notification)
         }
     };
 
