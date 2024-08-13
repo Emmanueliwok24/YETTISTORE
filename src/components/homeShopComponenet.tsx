@@ -39,7 +39,7 @@ const HomeShop = async ({ name, id, store_name }: HomeShopProps) => {
             >
               <small className="group-hover:block hidden">
 
-              View all {name} collectiond{" "}
+              View all {name} collection{" "}
               </small>
               <LucideArrowUpRight/>
             </Link>
