@@ -8,6 +8,7 @@
   import { cookies } from "next/headers";
   import Image from "next/image";
   import { toast } from "sonner";
+import CollectionList from "@/components/CollectionList";
 
   export type StoreDetails = {
     id: number;
@@ -75,13 +76,10 @@
 
 
 
-
-
             {collections.data.map((collection: collectionsType) => (
               <div className="mt-2 px-2 border-b border-gray-200 border-dashed " key={collection.id}>
                 {/* Pass store_name as a prop to HomeShop */}
                 <HomeShop {...collection} key={collection.id} store_name={params.id} />
-                
               </div>
             ))}
           </div>

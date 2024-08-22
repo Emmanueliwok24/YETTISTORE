@@ -4,7 +4,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
-import { LucideLogOut, LucidePowerOff } from "lucide-react";
 import { toast } from "sonner";
 
 export default function LogoutComponent() {

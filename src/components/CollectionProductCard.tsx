@@ -1,33 +1,43 @@
 "use client";
 import { useCartContext } from "@/contexts/cart";
-import { productType } from "@/types/collections";
-import axios from "axios";
 import Image from "next/image";
-import { toast } from "sonner";
-import { X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import axios from "axios";
+import { X } from "lucide-react";
 
-function ProductCard({
-  title,
-  media,
-  description,
-  price,
+interface ProductType {
+  id: number;
+  title: string;
+  description: string;
+  media: string;
+  price: string;
+  discounted_price: string | null;
+  cost_price: string;
+  stock_count: number;
+  collection: number;
+  status: string;
+  theme: string;
+}
+
+const CollectionProductCard = ({
   id,
-  collection,
+  title,
+  description,
+  media,
+  price,
   cost_price,
-}: productType) {
+  collection,
+}: ProductType) => {
   const { addToCart, updateQuantity, cart } = useCartContext();
   const productInCart = cart.find((item) => item.id === id);
   const [quantity, setQuantity] = useState(productInCart ? productInCart.quantity : 0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (productInCart) {
-      setQuantity(productInCart.quantity);
-    } else {
-      setQuantity(0); // Reset the quantity if the product is removed from the cart
-    }
-  }, [productInCart, cart]);
+    const productInCart = cart.find((item) => item.id === id);
+    setQuantity(productInCart ? productInCart.quantity : 0);
+  }, [cart, id]);
 
   const handleAddToCart = () => {
     if (quantity > 0) {
@@ -43,20 +53,16 @@ function ProductCard({
         collection: String(collection),
         image: media,
       });
-      setQuantity(1);
     }
     saveCartToServer();
   };
 
   const handleQuantityChange = (change: number) => {
-    const newQuantity = Math.max(1, quantity + change); // Ensure quantity never goes below 1
+    const newQuantity = Math.max(1, quantity + change);
     setQuantity(newQuantity);
-
     if (newQuantity > 0) {
       updateQuantity(id, newQuantity);
     }
-
-    saveCartToServer();
   };
 
   const saveCartToServer = async () => {
@@ -64,27 +70,21 @@ function ProductCard({
       await axios.post(`${process.env.NEXT_PUBLIC_ENDPOINT}/buyer/cart/`, cart, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${document.cookie.split("token=")[1].split(";")[0]}`,
+          Authorization:
+            "Bearer " + document.cookie.split("token=")[1].split(";")[0],
         },
       });
+      toast.dismiss();
     } catch (error) {
       console.error("Error saving cart:", error);
     }
   };
 
-  const handleImageClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
-    <div className="border p-2 px-3 snap-center flex-shrink-0 w-[250px] mb-2 flex flex-col justify-between bg-white">
+    <div className="border snap-center flex-shrink-0 overflow-hidden flex flex-col justify-between bg-white p-2">
       <div
         className="rounded-xl overflow-hidden flex items-center justify-center cursor-pointer"
-        onClick={handleImageClick}
+        onClick={() => setIsModalOpen(true)}
       >
         <Image
           src={media}
@@ -133,15 +133,14 @@ function ProductCard({
           </div>
         )}
       </div>
-
       {isModalOpen && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50"
-          onClick={handleCloseModal}
+          onClick={() => setIsModalOpen(false)}
         >
-          <div className="relative w-auto bg-white p-4 rounded-lg">
+          <div className="relative w-auto bg-white">
             <button
-              onClick={handleCloseModal}
+              onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 bg-white hover:text-gray-800"
             >
               <X size={24} />
@@ -158,6 +157,6 @@ function ProductCard({
       )}
     </div>
   );
-}
+};
 
-export default ProductCard;
+export default CollectionProductCard;
