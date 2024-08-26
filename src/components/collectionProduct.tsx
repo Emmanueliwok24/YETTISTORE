@@ -38,7 +38,6 @@ async function CollectionProduct({
       </div>
     );
   } catch (error) {
-    console.error("Error fetching products:", error);
     // Handle error gracefully, display a message or return an empty state
     return <p className="text-center text-gray-600"> No product Added to this collection.</p>;
   }

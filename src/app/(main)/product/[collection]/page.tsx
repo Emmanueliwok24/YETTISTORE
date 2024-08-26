@@ -45,7 +45,6 @@ const fetchCollectionOverview = async (collectionId: number): Promise<Collection
     );
     return { ...res.data, error: false };
   } catch (error: any) {
-    console.error('Error fetching products:', error.message);
     return { error: true, message: 'Something went wrong', data: [] };
   }
 };
