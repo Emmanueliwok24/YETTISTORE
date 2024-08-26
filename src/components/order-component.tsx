@@ -108,7 +108,7 @@ export default function OrderComponent() {
                             <h3 className="font-bold">Order <span className="font-light">#{order.order_number}</span></h3>
                             <p className="mt-1">On {order.created_at}</p>
                         </div>
-                    </div>
+                    </div>  
                     <div className="text-end">
                         <span className={`md:mt-3 md:inline-block text-white px-1 text-uppercase
                             ${order.status === "delivered" ? "bg-green-500" : order.status === "cancelled" ? "bg-red-500" : order.status === "pending" ? "bg-yellow-500" : "bg-blue-500"}

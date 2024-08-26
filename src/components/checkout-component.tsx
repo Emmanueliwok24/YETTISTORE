@@ -203,7 +203,12 @@ export const PaymentForm = () => {
     const { cart, clearCart } = useCartContext();
     const { clearSubtotal } = useSubtotal();
 
-    const order_number = localStorage.getItem("order_number");
+    // Redirect to home if cart is empty
+    useEffect(() => {
+        if (cart.length === 0) {
+            router.push("/");
+        }
+    }, [cart, router]);
 
     const handleFormSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
@@ -241,23 +246,24 @@ export const PaymentForm = () => {
 
             if (res.status === 200 && res.data && res.data.data.authorization_url) {
                 const { authorization_url, reference } = res.data.data;
+
+                // Open payment URL in a new window or tab
                 const deviceWidth = window.innerWidth;
                 const paymentWindow = window.open(authorization_url, deviceWidth < 1024 ? "_self" : "_blank", deviceWidth < 1024 ? "" : "width=500,height=600");
 
                 if (paymentWindow) {
-                    const clearContextandCart = () => {
+                    const clearContextAndCart = () => {
                         localStorage.clear();
                         clearCart();
                         clearData();
                         clearSubtotal();
                         router.refresh();
                     };
-                    clearContextandCart();
+                    clearContextAndCart();
 
-                    paymentWindow.addEventListener("load", () => {
-                        paymentWindow.addEventListener("beforeunload", () => {
-                            window.location.replace(`/validate/${reference}`);
-                        });
+                    // Redirect to validation page on payment window close
+                    paymentWindow.addEventListener("beforeunload", () => {
+                        window.location.replace(`/validate/${reference}`);
                     });
                 }
             } else {
@@ -268,8 +274,7 @@ export const PaymentForm = () => {
 
             if (errorMessage) {
                 toast.error("The email must belong to a buyer. Payment initiation stopped.");
-                toast.dismiss()
-
+                toast.dismiss();
                 return; // Stops further execution
             }
 
@@ -277,8 +282,12 @@ export const PaymentForm = () => {
         }
     }, [data, clearCart, clearData, clearSubtotal, router]);
 
+    if (cart.length === 0) {
+        return null; // Return null if there are no items in the cart
+    }
+
     return (
-        <form action="" onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit}>
             <div className="mb-4">
                 <input
                     type="text"

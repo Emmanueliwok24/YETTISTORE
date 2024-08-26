@@ -1,4 +1,4 @@
-import {  Instagram, Linkedin,  Twitter } from "lucide-react";
+import {  Instagram, Linkedin,  LucideMessageCircleReply } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import LogoutComponent from "../logout";
@@ -36,6 +36,11 @@ const Footer = ({ className }: FooterCompProps) => {
                                         <Linkedin />
                                     </Link>
                                 </div>
+                                    <div className="border rounded-full p-2 aspect-square">
+                                        <Link href={"https://wa.me/+2348103493062"} target="_blank" rel="noopener noreferrer">
+                                            <LucideMessageCircleReply />
+                                        </Link>
+                                    </div>
 
                             </div>
                         </div>

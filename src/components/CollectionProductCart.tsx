@@ -140,23 +140,23 @@ function CollectionProductCart({
 
       {/* Modal */}
       {isModalOpen && (
-        <div
+          <div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50"
-          onClick={handleCloseModal}
+          onClick={() => setIsModalOpen(false)}
         >
-          <div className="relative w-full max-w-3xl bg-white p-4 rounded-lg">
+          <div className="relative w-auto bg-white">
             <button
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-500 bg-white hover:text-gray-800"
             >
               <X size={24} />
             </button>
             <Image
               src={media}
               alt={title}
-              className="object-cover w-full h-full"
-              width={800}
-              height={800}
+              className="object-contain aspect-square"
+              width={400}
+              height={400}
             />
           </div>
         </div>

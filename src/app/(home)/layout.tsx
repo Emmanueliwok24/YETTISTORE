@@ -28,6 +28,7 @@ export default function RootLayout({
           <main className="py-10">
             {children}
           </main>
+          <Footer />
         </QueryProviderContext>
       </body>
     </html>
