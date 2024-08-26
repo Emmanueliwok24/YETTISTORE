@@ -35,16 +35,16 @@ const CollectionList: React.FC<CollectionListProps> = ({ selectedCollectionId })
   };
 
   return (
-    <div className="collection-list flex flex-wrap gap-2">
+    <div className="collection-list flex flex-wrap gap-1">
       {collections.map((collection) => (
         <div
           key={collection.id}
-          className={`collection-item cursor-pointer p-4 border border-gray-300 rounded-lg hover:bg-gray-100  ${
+          className={`collection-item cursor-pointer p-2 px-3 border text-gray-800 border-gray-300 rounded-lg hover:bg-gray-100  ${
             selectedCollectionId === collection.id ? 'bg-blue-500 text-white  hover:bg-blue-500 ' : ''
           }`}
           onClick={() => handleCollectionClick(collection.id)}
         >
-          <h3 className="text-lg font-semibold">{collection.name}</h3>
+          <small className="text-sm font-semibold">{collection.name}</small>
         </div>
       ))}
     </div>

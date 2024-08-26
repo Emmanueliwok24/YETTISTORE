@@ -48,9 +48,9 @@ const HomeStoreLink = () => {
                 <button className=" bg-slate-900 text-white p-3 flex-1">Go</button>
             </form>
             <div className="overflow-hidden  order-3 p-2 ">
-                <div className="mt-6 text-start mb-3 border-b border-dashed ">
+                <div className="mt-6 text-start mb-4 border-b border-dashed ">
                     <h1 className="font-bold text-xl m-0 p-0 leading-none ">All Collections</h1>
-                    <small className="m-0 p-0 text-gray-400 font-semibold">Click on a collection to view its details and products.</small>
+                    <small className="m-0 p-0 text-gray-400 font-normal">Click on a collection to view its details and products.</small>
                 </div>
                 <CollectionList selectedCollectionId={selectedCollectionId} />
             </div>
