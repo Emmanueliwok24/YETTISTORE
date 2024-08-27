@@ -14,20 +14,7 @@ import Head from "next/head";
 import { LucideArrowLeft, LucideArrowUpRight } from "lucide-react";
 
 const InformationLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-    const [storeLink, setStoreLink] = useState<string | null>(null);
-    const router = useRouter();
-
-    useEffect(() => {
-        // Retrieve the store link from localStorage
-        const savedStoreLink = localStorage.getItem("storeLink");
-        setStoreLink(savedStoreLink);
-    }, []);
-
-    const handleBackToStore = () => {
-        if (storeLink) {
-            router.push(`/store/${storeLink}`);
-        }
-    };
+    
 
     return (
         <html lang="en">
@@ -42,18 +29,9 @@ const InformationLayout = ({ children }: Readonly<{ children: React.ReactNode }>
                             <main className="max-w-screen-xl mx-auto w-full">
                                 <div className="grid md:grid-cols-2 grid-cols-1 min-h-[60vh]">
                                     <div className="bg-[#0a3457] w-full p-5 md:px-10">
+
                                         <BreadCrumbs />
-                                        {storeLink && (
-                                            <div className="mt-3 text-start text-gray-300 border border-gray-700 p-2 py-3">
-                                                <button
-                                                    onClick={handleBackToStore}
-                                                   className="flex gap-2 items-center  text-sm"
-                                                >
-                                                    <LucideArrowLeft/>
-                                                    Back to Store
-                                                </button>
-                                            </div>
-                                        )}
+
                                       {children}
                                     </div>
                                     <CartSideComponent />

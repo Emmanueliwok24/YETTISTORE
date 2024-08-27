@@ -196,7 +196,6 @@ export const InformationForm = () => {
     );
 };
 
-
 export const PaymentForm = () => {
     const router = useRouter();
     const { data, clearData } = useCheckOutContext();
@@ -297,7 +296,7 @@ export const PaymentForm = () => {
                     className="border outline-none bg-transparent text-white border-gray-600 px-3 py-3 w-full block placeholder:text-gray-50 rounded-sm text-sm"
                 />
             </div>
-            <div className="mb-4">
+            <div className="mb-4">      
                 <input
                     type="tel"
                     value={data.phone}
@@ -307,8 +306,11 @@ export const PaymentForm = () => {
                 />
             </div>
             <div className="mb-4">
-                <button className="outline-none bg-white text-center border-none px-3 py-3 w-full block text-slate-950 font-semibold cursor-pointer rounded-sm">
-                    Continue to pay
+                <button
+                    type="submit"
+                    className="outline-none bg-white text-center border-none px-3 py-3 w-full block text-slate-950 font-semibold cursor-pointer rounded-sm"
+                >
+                    Pay Now
                 </button>
             </div>
         </form>
