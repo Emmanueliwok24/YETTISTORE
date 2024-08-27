@@ -203,13 +203,6 @@ export const PaymentForm = () => {
     const { cart, clearCart } = useCartContext();
     const { clearSubtotal } = useSubtotal();
 
-    // Redirect to home if cart is empty
-    useEffect(() => {
-        if (cart.length === 0) {
-            router.push("/");
-        }
-    }, [cart, router]);
-
     const handleFormSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         const orderNumber = localStorage.getItem("order_number");
@@ -272,7 +265,7 @@ export const PaymentForm = () => {
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || "An error occurred";
 
-            if (errorMessage) {
+            if (errorMessage === "The email must belong to a buyer") {
                 toast.error("The email must belong to a buyer. Payment initiation stopped.");
                 toast.dismiss();
                 return; // Stops further execution
